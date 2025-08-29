@@ -30,7 +30,7 @@ This project works with any static hosting service:
 
 ### **Available Tools**
 - **🔍 Google Search**: Real-time web search with snippet extraction and result ranking
-- **⚙️ AI Pipe Workflows**: Serverless AI workflow execution for complex data processing
+- **⚙️ AI Pipe (OpenRouter)**: Access to multiple AI models through OpenRouter proxy for text processing
 - **💻 JavaScript Executor**: Sandboxed code execution with comprehensive error handling
 
 ### **Enhanced User Experience**
@@ -86,7 +86,7 @@ Agent:
 ### **Configuration**
 - **AI Pipe Token**: Get from [aipipe.org](https://aipipe.org) (provides access to multiple AI models)
 - **Google Search**: API Key + CX ID from Google Cloud Console
-- **AI Pipe Workflows**: Optional API key for workflow access
+- **AI Pipe Workflows**: Required API key for OpenRouter access
 - **All credentials** are saved locally in your browser's localStorage
 
 ## � Deployment
@@ -177,9 +177,11 @@ The agent demonstrates several advanced AI capabilities:
 - **API Key**: Get from [Google Cloud Console](https://console.cloud.google.com/apis/credentials)
 - **CX ID**: Create a custom search engine at [Programmable Search Engine](https://programmablesearchengine.google.com/)
 
-### AI Pipe (Optional)
-- Get your API key from [AI Pipe](https://aipipe.org/keys)
-- Used for executing serverless AI workflows
+### AI Pipe (OpenRouter Proxy)
+- Get your API key from [AI Pipe](https://aipipe.org)
+- Provides access to multiple AI models through OpenRouter
+- Used for text processing: summarization, sentiment analysis, content expansion, translation
+- **Endpoint**: Uses the standard OpenRouter chat completions format
 
 ## Usage
 

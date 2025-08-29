@@ -181,42 +181,84 @@ async function google_search({ query }) {
 }
 
 /**
- * Calls an AI Pipe workflow with enhanced error handling and response formatting.
+ * Calls AI Pipe (OpenRouter proxy) for text processing tasks.
+ * Uses the chat completions endpoint with appropriate prompts for different workflows.
  */
 async function aipipe_workflow({ workflow, payload }) {
   const apiKey = document.getElementById("param-aipipe-key")?.value;
   
-  const headers = { 
-    "Content-Type": "application/json",
-    "User-Agent": "LLM-Agent-POC/1.0"
-  };
-  
-  if (apiKey) {
-    headers["Authorization"] = `Bearer ${apiKey}`;
+  if (!apiKey) {
+    return JSON.stringify({
+      success: false,
+      workflow: workflow,
+      payload: payload,
+      error: "AI Pipe API key is required",
+      timestamp: new Date().toISOString(),
+      suggestion: "Please configure your AI Pipe API key in the settings panel to access OpenRouter models."
+    });
   }
   
-  // Construct the proper AI Pipe workflow URL
-  const workflowUrl = `https://aipipe.org/api/${workflow}`;
+  // Define prompts for different workflow types
+  const workflowPrompts = {
+    'summarize': `Please provide a concise and clear summary of the following text. Focus on the main points and key information:\n\n${payload.text}`,
+    
+    'sentiment': `Analyze the sentiment of the following text. Respond with the overall sentiment (positive, negative, or neutral) and a brief explanation of your reasoning:\n\n${payload.text}`,
+    
+    'expand-content': `Expand and elaborate on the following content. Add more detail, examples, context, and depth while maintaining the same tone and style. Make it more comprehensive and informative:\n\n${payload.text}`,
+    
+    'translate': `Translate the following text to ${payload.target_language || 'English'}:\n\n${payload.text}`,
+    
+    'analyze': `Provide a detailed analysis of the following text, including key themes, insights, and important observations:\n\n${payload.text}`,
+    
+    'rewrite': `Rewrite the following text to be clearer, more engaging, and better structured while preserving the original meaning:\n\n${payload.text}`
+  };
+  
+  const prompt = workflowPrompts[workflow] || `Process the following text for the "${workflow}" task:\n\n${payload.text}`;
   
   try {
-    const response = await fetch(workflowUrl, {
-      method: "POST",
-      headers,
-      body: JSON.stringify(payload),
+    const response = await fetch('https://aipipe.org/openrouter/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+        'User-Agent': 'LLM-Agent-POC/1.0'
+      },
+      body: JSON.stringify({
+        model: 'openai/gpt-3.5-turbo',
+        messages: [
+          {
+            role: 'user',
+            content: prompt
+          }
+        ],
+        max_tokens: workflow === 'expand-content' ? 1500 : 800,
+        temperature: workflow === 'translate' ? 0.3 : 0.7
+      })
     });
     
     if (!response.ok) {
-      const errorText = await response.text();
-      throw new Error(`AI Pipe API error: ${response.status} ${response.statusText} - ${errorText}`);
+      const errorData = await response.text();
+      throw new Error(`AI Pipe API error: ${response.status} - ${errorData}`);
     }
     
-    const result = await response.json();
+    const data = await response.json();
+    
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      throw new Error('Invalid response format from AI Pipe API');
+    }
+    
+    const result = data.choices[0].message.content.trim();
     
     return JSON.stringify({
       success: true,
       workflow: workflow,
       payload: payload,
-      result: result,
+      result: {
+        text: result,
+        model: data.model || 'openai/gpt-3.5-turbo',
+        provider: 'AI Pipe (OpenRouter)',
+        usage: data.usage
+      },
       timestamp: new Date().toISOString()
     }, null, 2);
     
@@ -227,7 +269,7 @@ async function aipipe_workflow({ workflow, payload }) {
       payload: payload,
       error: error.message,
       timestamp: new Date().toISOString(),
-      suggestion: apiKey ? "Check if the workflow name is correct and the payload format is valid. Available workflows might include: 'summarize', 'sentiment', 'expand-content'." : "Consider adding an AI Pipe API key for authenticated access."
+      suggestion: "Check your AI Pipe API key and ensure you have credits available. AI Pipe provides access to OpenRouter models."
     });
   }
 }

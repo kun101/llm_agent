@@ -49,22 +49,23 @@ export const demos = [
   },
   {
     icon: "cpu",
-    title: "AI Pipe",
-    description: "Run serverless workflows for complex data processing.",
-    prompt: "Use the aipipe_workflow tool to run AI workflows for text processing. Use workflow names like 'summarize', 'sentiment', or 'expand-content'.",
+    title: "AI Pipe (OpenRouter)",
+    description: "Access multiple AI models through the AI Pipe OpenRouter proxy for text processing tasks.",
+    prompt: "Use the aipipe_workflow tool for text processing tasks like summarize, sentiment analysis, content expansion, translation, and analysis. This uses OpenRouter models through AI Pipe.",
     questions: [
       "Summarize this text: 'Artificial intelligence has revolutionized many industries...'",
       "Analyze the sentiment of this review: 'This product exceeded my expectations!'",
-      "Expand this outline into detailed content: '1. Introduction 2. Benefits 3. Conclusion'",
-      "Process and categorize customer feedback data",
+      "Expand this outline: '1. AI Benefits 2. Implementation 3. Future Outlook'",
+      "Translate 'Hello, how are you?' to Spanish",
     ],
     params: [
       {
         label: "AI Pipe API Key",
-        link: "https://aipipe.org/keys",
-        required: false,
+        link: "https://aipipe.org",
+        required: true,
         key: "aipipe-key",
         type: "password",
+        note: "Provides access to OpenRouter models via AI Pipe proxy. Get your key from aipipe.org"
       },
     ],
   },
