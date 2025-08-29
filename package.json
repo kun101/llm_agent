@@ -1,0 +1,28 @@
+{
+  "name": "llm-agent-poc",
+  "version": "1.0.0",
+  "description": "Browser-based LLM Agent with Multi-Tool Reasoning",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx http-server -p 3000",
+    "build": "echo 'Static site - no build needed'",
+    "start": "npx http-server -p 3000"
+  },
+  "keywords": [
+    "llm",
+    "ai",
+    "agent",
+    "tools",
+    "reasoning",
+    "javascript",
+    "browser"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  }
+}
