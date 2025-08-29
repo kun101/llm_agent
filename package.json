@@ -3,6 +3,14 @@
   "version": "1.0.0",
   "description": "Browser-based LLM Agent with Multi-Tool Reasoning",
   "main": "index.html",
+  "homepage": ".",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/USERNAME/REPO_NAME.git"
+  },
+  "bugs": {
+    "url": "https://github.com/USERNAME/REPO_NAME/issues"
+  },
   "scripts": {
     "dev": "npx http-server -p 3000",
     "build": "echo 'Static site - no build needed'",

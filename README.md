@@ -1,6 +1,25 @@
 # LLM Agent POC - Browser-Based Multi-Tool Reasoning
 
-A sophisticated browser-based AI agent that demonstrates the power of multi-tool reasoning. Built as a proof-of-concept, this agent can automatically chain multiple tools together to accomplish complex tasks, making it easier for users to get comprehensive answers and solutions.
+A sophisticated ## 🚀 Deployment
+
+### **GitHub Pages (Recommended)**
+
+The easiest way to deploy this application is using GitHub Pages with automatic deployment:
+
+📖 **[Complete Setup Guide](GITHUB_SETUP.md)** - Step-by-step instructions
+
+**Quick Steps:**
+1. Push code to a public GitHub repository
+2. Enable GitHub Pages with "GitHub Actions" source
+3. Automatic deployment on every push
+4. Access at `https://yourusername.github.io/yourrepo/`
+
+### **Other Static Hosts**
+This project works with any static hosting service:
+- **Netlify**: Drag and drop the folder
+- **Surge.sh**: `npx surge` in project directory
+- **Firebase Hosting**: Use `firebase deploy`
+- **Any web server**: Upload files to any static hosting agent that demonstrates the power of multi-tool reasoning. Built as a proof-of-concept, this agent can automatically chain multiple tools together to accomplish complex tasks, making it easier for users to get comprehensive answers and solutions.
 
 ## 🚀 Key Features
 
